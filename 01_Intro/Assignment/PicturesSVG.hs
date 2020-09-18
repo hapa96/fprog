@@ -191,3 +191,11 @@ postamble
 -- Example picture
 lambda :: Picture
 lambda = Img $ Image (Name "lambda.png") (100, 100)
+
+
+
+aufgabe1a = render (beside(beside lambda lambda) lambda)
+
+aufgabe1b = render (above (beside lambda (invert lambda )) (beside (invert lambda ) lambda ))
+
+aufgabe1c = render(invert(flipH ( flipV lambda )))
