@@ -193,9 +193,13 @@ lambda :: Picture
 lambda = Img $ Image (Name "lambda.png") (100, 100)
 
 
-
+-- Aufgabe 1
 aufgabe1a = render (beside(beside lambda lambda) lambda)
 
 aufgabe1b = render (above (beside lambda (invert lambda )) (beside (invert lambda ) lambda ))
 
 aufgabe1c = render(invert(flipH ( flipV lambda )))
+
+--Aufgabe 2 rotate180
+rotate180 :: Picture -> Picture
+rotate180 pic = flipH (FlipV pic)
