@@ -202,4 +202,4 @@ aufgabe1c = render(invert(flipH ( flipV lambda )))
 
 --Aufgabe 2 rotate180
 rotate180 :: Picture -> Picture
-rotate180 pic = flipH (FlipV pic)
+rotate180 pic = flipH (flipV pic)
