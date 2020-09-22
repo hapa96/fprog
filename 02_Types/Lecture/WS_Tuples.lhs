@@ -6,7 +6,7 @@ Tuples vs Classes
 
 Eine Person könnte in Haskell wie folgt modelliert werden:
 
-> type Person = (String, String, Int)
+> type Person = (String, String, Int) --Name, Telefonnummer, Alter
 
 In Java würde man eine analoge Klasse so definieren:
 
@@ -47,12 +47,16 @@ Daniel Kröni
 c) Definieren Sie ein eigenes Tupel me, und fragen Sie auch dort den Namen ab. 
 Hinweis: sie müssen den Code hier ergänzen und danach neu in GHCi laden.
 
-
-> me = todo
+> me :: Person
+> me = ("Pascal Hauser", "123456789", 24)
 
 d) Definieren Sie die Funktionen phone und age, welche Analog zu name die zweite bzw. dritte Komponente einer Person zurückgeben.
 
->
+> phone :: Person -> String
+> phone (_, p, _) = p -- Für Komponenten, welche nicht gebraucht werden, sollte man _ verwenden.
+
+> age :: Person -> Int
+> age = third --alias... Siehe Aufgabe 2c
 
 e) Überprüfen Sie Ihre Funktionen phone und age indem Sie phone me und age me ausführen und sich vergewissern, dass die korrekten Werte zurückgegeben werden.
 
@@ -60,8 +64,10 @@ e) Überprüfen Sie Ihre Funktionen phone und age indem Sie phone me und age me 
 Aufgabe 2 Tupel-Typen
 
 a) Offensichtlich funktionieren die Funktionen fst und snd nicht mehr auf dem Person-Triple. Warum?
+  ANTWORT: fst und snd erwarten als Input ein zwei Elemente. Der Person Typ vereint jedoch drei Komponenten
 b) Warum funktionieren die Funktionen fst und snd nicht auf normalen Tripeln, die nicht vom Typ Person sind?
 fst ("Hans", "0123456789", 23)
+  fst erwartet als Input ein zweier Tupel
 
 <interactive>:18:5:
     Couldn't match expected type `(a0, b0)'
@@ -74,4 +80,11 @@ c)	Schreiben Sie die Funktionen first, second und third welche die erste, zweite
 Hinweis: Beginnen Sie mit der Typdeklaration der Funktion first und deklarieren Sie als Parameter den generischen Tupel Typ.
 
 
-> todo = error "TODO"
+> first :: (a,b,c) -> a
+> first (a, _, _) = a
+
+> second :: (a,b,c) -> b
+> second (_, b, _) = b
+
+> third :: (a, b, c) -> c 
+> third (_, _, c) = c
