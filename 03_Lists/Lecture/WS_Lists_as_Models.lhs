@@ -15,17 +15,20 @@ Aktiennamen und deren Dollar Kurse.
 b.	Einkaufsliste
 Eine Liste der zu kaufenden Artikel jeweils mit der benötigten Anzahl.
 
-> -- b ::
-> b = undefined 
+> b :: [(String, Int)]
+> b = [("Milch", 1), ("Butter", 10), ("Bier", 100)] 
 
 c.	Stundenplan
 Für jeden Wochentag eine Abfolge der Module.
 
-> -- c ::
-> c = undefined
+> c :: [(String, [String])]
+> c = [("Montag",["iot"]),("Dienstag",["fprog","webpr"])]
 
 d.	Videothek Datenbank
 Für jeden Kunden den Namen und alle ausgeliehenen Filme, jeweils mit der Information, ob der Film bereits wieder zurückgebracht wurde.
 
-> -- d ::
-> d = undefined
+> --Problem: Booleanblindness --> Lösung: Einen eigenen Datentyp für den entsprechenden Zusatnd definieren
+> data RentState = Out | InShop
+> d :: [(String,[(String, RentState)])]
+> d = [("Pascal", [("Avatar", InShop)]),("Katharina", [("Bambi", Out)])]
+
