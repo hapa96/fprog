@@ -1,13 +1,12 @@
 incAll :: [Int] -> [Int]
-incAll = todo
+incAll = map(\x -> x+1)
 
 addToAll :: Int -> [Int] -> [Int]
-addToAll = todo
-
+addToAll a = map(\x -> x+ a)
+-- filter behält alles, was zu true evaluiert.
 keepOld :: [Int] -> [Int]
-keepOld = todo
+keepOld = filter(\x -> x >= 90)
 
 dropShort :: [String] -> [String]
-dropShort = todo
+dropShort = filter(\x ->length x > 1 )
 
-todo = error "TODO"

@@ -26,7 +26,8 @@ compare_case_expression a b = case a > b of
     False -> LT
 
 --d)
---Es ist nicht möglich, jede mögliche mittels Patternmatching abzufangen.
+-- Die Fallunterschiedung ist mit einem Patternmatching nicht zu realisieren, da ein Vergleich notwendig ist. Selbst die (verrückte) Idee, alle möglichen Fälle als Pattern anzugebe, ist in diesem Falle nicht mehr möglich, 
+-- da man über die Werte vom Typ a nur weiss, dass sie vergleichbar sind (Ord a). Man kan kein Pattern schreiben, welche für WErte der unterschiedlichen Typen gleichzeitig passen. Zudem gibt es Typen (Int) welche Unentlich viele Möglichkeiten haben
 -- ######################################################
 --2) Siehe OneNote
 
