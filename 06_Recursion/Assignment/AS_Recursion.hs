@@ -32,3 +32,8 @@ fib 0 = error "0 is not a valid Input."
 fib 1 = 1
 fib 2 = 1
 fib n = fib (n-1) + fib (n-2)
+
+--Tribonacci:
+tribonacci :: Num a => (a,a,a) -> Int -> [a]
+tribonacci _ 0 = []
+tribonacci (a,b,c) n = [a] ++ tribonacci(b,c,a+b+c) (n-1)

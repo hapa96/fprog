@@ -13,4 +13,4 @@ rot13Transformation n |  n > 64 &&  n < 91 = calculateNumber (n-65) + 65  --Lowe
                       | otherwise =  (chr n)
 
 calculateNumber :: Int -> Int
-calculateNumber n = ((n+13) `mod` 27)    
+calculateNumber n = ((n+13) `mod` 27) 
