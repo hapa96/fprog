@@ -44,11 +44,7 @@ Aufgabe 1)
 Zeichnen Sie den Baum und konstruieren Sie den Wert vom Typ Expr in Haskell für folgenden
 Ausdruck: "(3*4)+(5+2)"
 
->       + 
-      /   \
-     *     +
-    / \   / \
-   3   4 5   2
+>
 
 Aufgabe 2)
 Einen solchen arithmetischen Ausdruck kann man nun ausrechnen (evaluieren).
@@ -94,9 +90,11 @@ verändern:
 eval e == eval (simpl e)
 
 > simpl :: Expr -> Expr
-> simpl (Mul l r) | (l == 0 || r == 0 ) = (Const 0)
->                 | (l == 1) = (Const r)
->                 | (r == 1) = (Const l)
+> simpl (Const c) = (Const c) 
+> simpl ( Add l r) = (Add l r)
+> simpl (Mul l r) | (l == (Const 0) || r == (Const 0) ) = (Const 0)
+>                 | (l == (Const 1)) = r
+>                 | (r == (Const 1)) = l
 >                 | otherwise = (Mul l r)
 
 Aufgabe 5)

@@ -1,7 +1,7 @@
 module Main where
 
-import System.Environment
 import Network.HTTP
+import System.Environment
 
 -- cabal repl
 -- :main Arg1 Arg2
@@ -9,4 +9,10 @@ import Network.HTTP
 -- cabal run webclient FirstName LastName
 main :: IO ()
 main = do
-    putStrLn "Load a joke from the web!"
+  [first, second] <- getArgs
+  let url = "http://api.icndb.com/jokes/random?limitTo=%5Bnerdy%5D&firstName=" ++ first ++ "&lastName=" ++ second
+  let req = getRequest url
+  res <- simpleHTTP req
+  content <- getResponseBody res
+  putStrLn content
+
