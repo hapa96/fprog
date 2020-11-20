@@ -14,7 +14,7 @@ Der Typ Point wird verwendet um ein Punkt in einer 2D Ebene zu definieren:
 -------|--------> x
        |
 
-> data Point = XY Float Float deriving Show
+> data Point = XY Float Float 
 
 Ein Punkt kann man entlang eines Vektors verschieben:
 
@@ -33,7 +33,7 @@ Auch ganze Figuren können verschoben werden:
 Sie zeigen das System einem Kollegen. Er findet es toll und schlägt Ihnen vor
 auch Textboxen zu unterstützen. Auch diese sollen positionierbar und verschiebbar sein:
 
-> data TextBox = Text Point String deriving Show
+> data TextBox = Text Point String 
 
 Eine TextBox ist KEINE Figur und Sie müssen schon wieder eine neue Funktion definieren
 um eine TextBox zu verschieben.
@@ -47,18 +47,31 @@ Aufgabe 1)
 Definieren Sie die Typeklasse Movable. Sie soll eine Methode beinhalten:
 move :: Vector -> a -> a
 
-> 
+> class Movable a where
+>      move :: Vector -> a -> a
 
 Aufgabe 2)
 Implementieren Sie Instanzen für Point, Figure und TextBox.
 
->
+> --Point
+> instance Movable Point where
+>      move (Vec dx dy) (XY x y) = XY (x + dx) (y + dy)
+
+> --Figure
+> instance Movable Figure where
+>      move v (Circle p s) = Circle (move v p) s --Circle
+>      move v (Line p1 p2) = Line (move v p1) (move v p2) --Line
+
+> --TextBox
+> instance Movable TextBox where
+>      move v (Text p s) = Text (move v p) s
 
 Aufgabe 3)
 Implementieren Sie eine Instanz für [a] wobei a der Typklasse Movable
 angehören muss:
 
->
+> instance Movable a => Movable [a] where
+>      move v as = map (\a -> move v a) as
 
 Wenn Sie alles richtig gemacht haben, können Sie nun eine Liste,
 die Figuren enthält verschieben:
@@ -67,7 +80,7 @@ die Figuren enthält verschieben:
 
 Aktivieren Sie die folgende Zeile wenn Sie Aufgabe 1 - 3 gelöst haben.
 
- after = move (Vec 2 3) before
+> after = move (Vec 2 3) before
 
 
 ------------------------------ STOP ----------------------------
@@ -79,20 +92,26 @@ folgt ausgibt: "P(x=1.0,y=2.0)"
 Hinweis: Sie müssen das "deriving Show" bei der bestehenden Point-
 Definition entfernen.
 
->
+> instance Show Point where
+>      show (XY x y) = "P(x=" ++ show x ++ ",y=" ++  show y ++ ")"
 
 Aufgabe 5)
 Implementieren Sie für den Typ Point eine Instanz für die Klasse Eq.
 
->
+> instance Eq Point where
+>      (XY x1 y1) == (XY x2 y2) = x1 == x2 && y1 == y2
 
 Aufgabe 6)
 Implementieren Sie für den Typ Point eine Instanz für die Klasse Ord.
 Hinweis: Zuerst nach der X Komponente und dann nach der Y Komponente vergleichen:
 
->
+> instance Ord Point where
+>      (XY x1 y1) <= (XY x2 y2) = (x1 <= x2) || ((x1 == x2) && (y1 <= y2))
 
 Aufgabe 7)
 Implementieren Sie für den Typ Figure eine Instanz für die Klasse Eq.
 
->
+> instance Eq Figure where
+>      (Circle p1 r1) == (Circle p2 r2) = p1 == p2 && r1 == r2
+>      (Line p11 p12) == (Line p21 p22) = p11 == p21 && p12 == p22
+>      _ == _ = False -- All other Cases... e.g Line with Circle --> False per Definition

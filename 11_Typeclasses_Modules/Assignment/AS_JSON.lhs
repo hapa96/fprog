@@ -54,7 +54,15 @@ Hinweise:
 - Falls Sie nicht weiter kommen, finden Sie ganz unten eine verschlüsselte Lösung damit Sie
   die folgenden Aufgaben trotzdem lösen können.
 
-> data JSON
+> data JSON = JNull 
+>            | JBool Bool 
+>            | JNum Double
+>            | JStr String
+>            | JSeq [JSON] 
+>            | JObj [(JBinding)]
+>            deriving (Show, Eq)
+
+> type JBinding = (String,JSON)
 
 
 2. Aufgabe
@@ -62,7 +70,10 @@ Definieren Sie die Funktion showJ, die JSON Daten in einen hübsch formatierten
 String übersetzt:
 
 > showJ :: JSON -> String
-> showJ = error "ToDo"
+> showJ (JSeq list) =  tail $ concat $ map (\x ->  ", " ++ show x) list 
+
+    
+ 
 
 3. Aufgabe
 Definieren Sie die Typklasse ToJSON. Sie soll eine Methode toJSON haben, die
