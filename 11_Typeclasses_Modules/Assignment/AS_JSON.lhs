@@ -1,6 +1,7 @@
 > {-# LANGUAGE FlexibleInstances, OverlappingInstances #-}
 
 > import Data.List
+> import Data.Char
 
 
 Die JavaScript Object Notation, kurz JSON [ˈdʒeɪsən], ist ein kompaktes Datenformat
@@ -70,7 +71,13 @@ Definieren Sie die Funktion showJ, die JSON Daten in einen hübsch formatierten
 String übersetzt:
 
 > showJ :: JSON -> String
-> showJ (JSeq list) =  tail $ concat $ map (\x ->  ", " ++ show x) list 
+> showJ JNull = "null"
+> showJ (JBool b) = map toLower (show b)
+> showJ (JNum num) = show num
+> showJ (JStr str) = "\"" ++ str ++ "\"" 
+> showJ (JSeq list) =  "[" ++ intercalate ", " (map showJ list) ++ "]"
+> showJ (JObj bs) = "{" ++ intercalate ", " (map binding bs) ++ "}"
+>              where binding (key, json) = "\"" ++ key ++ "\"" ++ showJ json
 
     
  
@@ -79,19 +86,37 @@ String übersetzt:
 Definieren Sie die Typklasse ToJSON. Sie soll eine Methode toJSON haben, die
 ein Wert nimmt und diesen in ein JSON Wert übersetzt:
 
->
+> class ToJSON a where
+>   toJSON :: a -> JSON
+
+
 
 4. Aufgabe
 Implementieren Sie Instanzen für String, Bool, Double, Int und Integer:
 Hinweis: Integer und Int können Sie mit der Funktion fromIntegral in ein Double übersezten
 
->
+> instance {-# OVERLAPS #-} ToJSON String where
+>   toJSON s = JStr s
+
+> instance ToJSON Bool where
+>   toJSON b = JBool b
+
+> instance ToJSON Int where
+>   toJSON num = JNum (fromIntegral num)
+
+> instance ToJSON Double where
+>   toJSON d = JNum d
+
+> instance ToJSON Integer where
+>   toJSON num = JNum (fromIntegral num)
+
 
 5. Aufgabe
 Implementieren Sie eine Instanz für Listen deren Elemente einen Typ haben
 der zur Klasse ToJSON gehört. Als Resultat soll eine JSeq rauskommen.
 
->
+> instance {-# OVERLAPPABLE #-} ToJSON a => ToJSON [a] where
+>   toJSON as = JSeq (map toJSON as)
 
 6. Aufgabe
 Gegeben ist der Type Student. Implementieren Sie eine ToJSON Instanz
